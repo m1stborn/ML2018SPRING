@@ -17,7 +17,6 @@ x = []
 y = []
 hours = 7
 for i in range(0, data.shape[0], 18*20):
-		# i: start of each month
 		days = np.vsplit(data[i:i+18*20], 20) # shape: 20 * (18, 24)
 		concat = np.concatenate(days, axis=1) # shape: (18, 480)
 
@@ -70,8 +69,6 @@ b_lr = 0.0
 w_lr = np.zeros((x.shape[1] , 1))
 lr = 1
 epoch = 35000
-
-j = np.ones((x.shape[1] , 1))
 
 for e in range(epoch):
 	error = y - b - np.dot(x,w)
