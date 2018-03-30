@@ -8,9 +8,16 @@ train = sys.argv[1]
 test = sys.argv[2]
 output = sys.argv[3]
 '''
+'''
+train_xFile = "X_train"
+train_yFile = "Y_train"
+testFile = "X_test"
+''' 
+
 train_xFile = "train_X"
 train_yFile = "train_Y"
 testFile = "test_X"
+
 outputFile = "output.csv"
 
 train_x = pd.read_csv(train_xFile,encoding='big5').as_matrix().astype('float')
@@ -23,40 +30,63 @@ print(train_y.shape)
 print(test_x.shape)
 '''
 def sigmoid(x):
-	return 	1 / (1+np.exp(-x))
+	return 	1 / (1 + np.exp(-x))
+'''	
+x = {}
+for j in range(0,train_x.shape[0]-1):
+	for i in range(0,len(train_x[j])-1):
+		if train_x[j,i] > 2:
+			x[i] = 1
+print(x)
 '''
-for i in range(0,len(train_x[2])-1):
-	if train_x[2,i] > 2:
-		print(i)
-'''
-continus = [0, 10 , 80]
-
+con = [0,10,78,79,80]
+continus = [0, 10 ,78 ,79 ,80,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142]
 
 # print(w.shape)
 
 train_x = np.concatenate((
 		train_x,
-		train_x[:,continus] ** 2,
-		train_x[:,continus] ** 3,
+		train_x[:,con] ** 2,
+		train_x[:,con] ** 3,
+		train_x[:,con] ** 4,
+		train_x[:,con] ** 5,
 	),axis=1)
 
 test_x = np.concatenate((
 		test_x,
-		test_x[:,continus] ** 2,
-		test_x[:,continus] ** 3,
+		test_x[:,con] ** 2,
+		test_x[:,con] ** 3,
+		test_x[:,con] ** 4,
+		test_x[:,con] ** 5,
 	),axis=1)
 
+'''
+a = {}
+for j in range(0,train_x.shape[0]-1):
+	for i in range(0,len(train_x[j])-1):
+		if train_x[j,i] > 2:
+			a[i] = 1
+print(a)
+'''
+mean = np.mean(train_x[:,continus],axis = 0)
+std = np.std(train_x[:,continus],axis = 0)
 
-x = (train_x - np.mean(train_x))/(np.std(train_x)+1e-20)
-x = np.concatenate((np.ones((x.shape[0],1)),x),axis = 1)
-x_test = (test_x - np.mean(train_x))/(np.std(train_x)+1e-20)
-x_test = np.concatenate((np.ones((test_x.shape[0],1)),x_test),axis = 1)
+train_x[:,continus] = (train_x[:,continus] - mean)/(std + 1e-20)
+test_x[:,continus] = (test_x[:,continus] - mean)/(std + 1e-20)
+x = np.concatenate((np.ones((train_x.shape[0],1)),train_x),axis = 1)
+x_test = np.concatenate((np.ones((test_x.shape[0],1)),test_x),axis = 1)
+
+
+# x = (train_x - np.mean(train_x,axis = 0))/(np.std(train_x,axis = 0)+1e-20)
+# x = np.concatenate((np.ones((x.shape[0],1)),x),axis = 1)
+# x_test = (test_x - np.mean(train_x,axis = 0))/(np.std(train_x,axis = 0)+1e-20)
+# x_test = np.concatenate((np.ones((test_x.shape[0],1)),x_test),axis = 1)
 
 
 w = np.zeros((train_x.shape[1]+1,1))
 w_lr = 0
 lr = 0.05
-epoch = 3000
+epoch = 5000
 
 
 for e in range(1,epoch+1):
@@ -79,7 +109,7 @@ for e in range(1,epoch+1):
 
 
 y_test = sigmoid(np.dot(x_test,w)) 
-print(y_test)
+# print(y_test)
 
 
 with open(outputFile, 'w') as fout:
