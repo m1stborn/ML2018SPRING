@@ -4,10 +4,12 @@ import pandas as pd
 import sys
 
 
-train_xFile = sys.argv[1]
-train_yFile = sys.argv[2]
-testFile = sys.argv[3]
-outputFile = sys.argv[4]
+train_xFile = sys.argv[3]
+train_yFile = sys.argv[4]
+testFile = sys.argv[5]
+outputFile = sys.argv[6]
+rawdata = sys.argv[1]
+rawtest = sys.argv[2]
 
 '''
 train_xFile = "X_train"

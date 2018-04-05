@@ -1,3 +1,3 @@
 #/usr/bin bash
 
-python3 hw2.py $2 $4 $5 $6
+python3 hw2.py $1 $2 $3 $4 $5 $6
