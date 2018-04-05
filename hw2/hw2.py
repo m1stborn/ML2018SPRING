@@ -3,24 +3,25 @@ import numpy as np
 import pandas as pd
 import sys
 
-'''
-train = sys.argv[1]
-test = sys.argv[2]
-output = sys.argv[3]
-'''
+
+train_xFile = sys.argv[1]
+train_yFile = sys.argv[2]
+testFile = sys.argv[3]
+outputFile = sys.argv[4]
+
 
 '''
 train_xFile = "X_train"
 train_yFile = "Y_train"
 testFile = "X_test"
 ''' 
-
+'''
 train_xFile = "train_X"
 train_yFile = "train_Y"
 testFile = "test_X"
 
 outputFile = "output.csv"
-
+'''
 train_x = pd.read_csv(train_xFile,encoding='big5').as_matrix().astype('float')
 train_y = pd.read_csv(train_yFile,encoding='big5',header = None).as_matrix().astype('float')
 
@@ -44,8 +45,8 @@ print(x)
 '''
 con = [0,10,78,79,80]
 continus = [0, 10 ,78 ,79 ,80,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142]
-print(train_x[out_index,])
-print(train_x.shape)
+# print(train_x[out_index,])
+# print(train_x.shape)
 # print(w.shape)
 
 train_x = np.concatenate((
@@ -96,12 +97,15 @@ print(len(train_y))
 
 w = np.zeros((train_x.shape[1]+1,1))
 w_lr = 0
-lr = 0.05
+lr = 0.01
 epoch = 5000
 outlier = []
 
 big = []
 small = []
+
+# j = np.ones((x.shape[1],1))
+
 
 for e in range(1,epoch+1):
 	predict = sigmoid(np.dot(x,w))
@@ -111,6 +115,7 @@ for e in range(1,epoch+1):
 
 	w_lr = w_lr + grad **2
 	lr =  0.05 / np.sqrt(w_lr)
+	# w = w - lr * grad -lr*0.001*j
 	w = w - lr * grad
 
 	if e % 100 == 0:
@@ -122,20 +127,20 @@ for e in range(1,epoch+1):
 		print('[Epoch {:5d}] - training loss: {:.5f}, accuracy: {:.5f}'.format(e, loss, acc))
 
 predict = sigmoid(np.dot(x,w))
-# print(predict)
-for i in range(len(p)):
-	if predict[i] > 0.99 and train_y[i] == 0:
-	# if predict[i] >= 0.99 :
-		# outlier.append(i)
-		big.append(i)
-	elif predict[i] <= 0.01 and train_y[i] == 1:
-	# elif predict[i] <= 0.01 :
-		# outlier.append(i)
-		small.append(i)
-print(len(big))
+# # print(predict)
+# for i in range(len(p)):
+# 	if predict[i] > 0.99 and train_y[i] == 0:
+# 	# if predict[i] >= 0.99 :
+# 		# outlier.append(i)
+# 		big.append(i)
+# 	elif predict[i] <= 0.01 and train_y[i] == 1:
+# 	# elif predict[i] <= 0.01 :
+# 		# outlier.append(i)
+# 		small.append(i)
+# print(len(big))
 # print(outlier)
-print(len(small))
-y_test = sigmoid(np.dot(x_test,w)) 
+# print(len(small))
+y_test = sigmoid(np.dot(x_test,w))  
 # print(y_test)
 
 with open(outputFile, 'w') as fout:
