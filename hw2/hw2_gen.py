@@ -3,23 +3,24 @@ import numpy as np
 import pandas as pd
 import sys
 
-'''
-train = sys.argv[1]
-test = sys.argv[2]
-output = sys.argv[3]
-'''
+
+train_xFile = sys.argv[1]
+train_yFile = sys.argv[2]
+testFile = sys.argv[3]
+outputFile = sys.argv[4]
+
 '''
 train_xFile = "X_train"
 train_yFile = "Y_train"
 testFile = "X_test"
 '''
-
+'''
 train_xFile = "train_X"
 train_yFile = "train_Y"
 testFile = "test_X"
 
 outputFile = "output.csv"
-
+'''
 train_x = pd.read_csv(train_xFile,encoding='big5').as_matrix().astype('float')
 train_y = pd.read_csv(train_yFile,encoding='big5',header = None).as_matrix().astype('float')
 
@@ -77,7 +78,7 @@ shared_sigma = (ctn1/size)*sigma1 + (ctn2/size)*sigma2
 
 
 def predict(test_x,mu1,mu2,shared_sigma,n1,n2):
-	sigma_inverse = np.linalg.inv(shared_sigma)
+	sigma_inverse = np.linalg.pinv(shared_sigma)
 	w = np.dot((mu1-mu2),sigma_inverse)
 	x = test_x.T
 	b = (-0.5)*np.dot(np.dot([mu1],sigma_inverse),mu1)+(0.5)*np.dot(np.dot([mu2],sigma_inverse),mu2)+np.log(n1/n2)
