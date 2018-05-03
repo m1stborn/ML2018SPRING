@@ -11,7 +11,7 @@ targetImg = sys.argv[2]
 
 imgs = []
 x = 0
-for i in range(0,415):
+for i in range(415):
 	img = io.imread(path+"{}.jpg".format(i))
 	img = img.flatten()
 	imgs.append(img)
@@ -36,7 +36,7 @@ def plotface(i):
 	i /= np.max(i)
 	i = (i*255).astype(np.uint8)
 	io.imshow(i.reshape((600,600,3)))
-	io.show()
+	# io.show()
 	io.imsave('reconstruction.jpg',i.reshape((600,600,3)))
 
 def eigen_face(eigenface):
