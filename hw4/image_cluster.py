@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 # outputFile = "model_32#6_check.csv"
 
 imgFile = sys.argv[1]
-testFile = sys.arge[2]
+testFile = sys.argv[2]
 outputFile = sys.argv[3]
 
 
@@ -25,7 +25,7 @@ image_x = np.load(imgFile)
 image_x = image_x
 image_x = image_x/255.0
 
-encoder = load_model("model_32#6")
+encoder = load_model("model_32#4")
 
 encoded_imgs = encoder.predict(image_x)
 
