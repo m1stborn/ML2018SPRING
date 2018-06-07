@@ -15,9 +15,14 @@ from keras.callbacks import ModelCheckpoint
 
 test_data = sys.argv[1]
 outputFile = sys.argv[2]
-# train_nolabel = sys.argv[3]
+mode = sys.argv[3]
 
-
+if mode == "private":
+	tokenfile = 'tokenizer_v136.pickle'
+	modelfile = 'modelw2v-00011-0.82925-0.39304-v136.h5'
+else:
+	tokenfile = 'tokenizer_v138.pickle'
+	modelfile = 'modelw2v-00010-0.83225-0.38905-v138.h5'
 # test_df = pd.read_csv(test_data)
 with open(test_data,encoding="utf-8") as f:
 	lines = f.readlines()
@@ -29,7 +34,7 @@ test_x = [i for i in stemmer.stem_documents(test_x)]
 
 test = test_x
 
-with open('tokenizer_v136.pickle', 'rb') as handle:
+with open(tokenfile, 'rb') as handle:
     tokenizer = pickle.load(handle)
 
 word_index = tokenizer.word_index
@@ -37,7 +42,7 @@ word_index = tokenizer.word_index
 seq = tokenizer.texts_to_sequences(test)
 test =pad_sequences(seq,maxlen = 39)
 
-model = load_model('./model/modelw2v-00011-0.82925-0.39304-v136.h5')
+model = load_model(modelfile)
 print(model.summary())
 predict = model.predict(test)
 
