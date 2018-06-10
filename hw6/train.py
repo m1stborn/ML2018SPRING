@@ -63,14 +63,14 @@ def myModel(num_user,num_movie):
 	movie_weight = Flatten()(movie_weight)
 	movie_weight = Dropout(0.5)(movie_weight)
 
-	# user_bias =  Embedding(num_user,1)(user_input)
-	# user_bias = Flatten()(user_bias)
+	user_bias =  Embedding(num_user,1)(user_input)
+	user_bias = Flatten()(user_bias)
 	
-	# movie_bias = Embedding(num_movie,1)(movie_input)
-	# movie_bias = Flatten()(movie_bias)
+	movie_bias = Embedding(num_movie,1)(movie_input)
+	movie_bias = Flatten()(movie_bias)
 
 	ratings = Dot(axes = 1)([user_weight,movie_weight])
-	# ratings =Add()([ratings,user_bias,movie_bias])
+	ratings =Add()([ratings,user_bias,movie_bias])
 	# ratings =Add()([ratings])
 
 	model = Model([user_input,movie_input],ratings)
@@ -102,17 +102,3 @@ model.fit([users,movies],rate,
 			callbacks = [check_point,early_stop],
 			validation_split=0.1
 			)
-
-'''
-file_name = "-v{}.h5".format(ver)
-check_point = ModelCheckpoint("./model/model-{epoch:05d}-{val_loss:.5f}"+file_name,monitor='val_loss',save_best_only=True)
-early_stop = EarlyStopping(monitor="val_loss", patience=3)
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=0, min_lr=0)
-model.fit([users,movies],rate,
-			epochs = 150,
-			batch_size = 128,
-			callbacks = [check_point,early_stop,reduce_lr],
-			# callbacks = [check_point,early_stop],
-			validation_split=0.1
-			)
-'''
