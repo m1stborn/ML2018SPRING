@@ -1,17 +1,12 @@
 import sys
 import numpy as np
 import pandas as pd
-
-from comet_ml import Experiment
-
 import keras.backend as K
 from keras.models import Model
 from keras.layers import Embedding,Input,Dot,Add,Concatenate,Dropout,Dense,Flatten
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau
 
 ver = 13 
-
-# experiment = Experiment(api_key = 'vkwbLYCgGUf5cuu0g1iGI3Mef')
 
 movies = sys.argv[1]
 users = sys.argv[2]
